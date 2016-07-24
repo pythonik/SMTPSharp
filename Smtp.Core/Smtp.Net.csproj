@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Command\Command.cs" />
     <Compile Include="Command\HELOCommand.cs" />
+    <Compile Include="Command\SmtpCommandResultCode.cs" />
     <Compile Include="Core\SMTPClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

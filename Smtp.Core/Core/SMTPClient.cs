@@ -28,7 +28,9 @@ namespace Smtp.Net.Core
                 PingReply reply = ping.Send(this.serverName);
                 pingResult = reply.Status == IPStatus.Success;
             }
-            catch { }
+            catch
+            {
+            }
             
             return pingResult;
         }

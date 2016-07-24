@@ -1,5 +1,7 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using Smtp.Net.Command;
 
 namespace Smtp.Net.Core
 {
@@ -19,6 +21,8 @@ namespace Smtp.Net.Core
             this.port = this.DefaultPort;
         }
 
+        public string Domain { get; set; } = Environment.MachineName;
+
         public bool Ping()
         {
             bool pingResult = false;
@@ -31,8 +35,18 @@ namespace Smtp.Net.Core
             catch
             {
             }
-            
+
             return pingResult;
+        }
+
+        public bool ExecuteHelo()
+        {
+            return this.ExecuteCommand(new HELOCommand(this.Domain));
+        }
+
+        private bool ExecuteCommand(SMTPCommand command)
+        {
+            return false;
         }
     }
 }

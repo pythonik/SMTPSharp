@@ -1,4 +1,4 @@
-﻿namespace Smtp.Net
+﻿namespace Smtp.Net.Command
 {
     public abstract class SMTPCommand
     {

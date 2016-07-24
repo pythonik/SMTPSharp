@@ -40,10 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\SMTPCommand.cs" />
     <Compile Include="Command\HELOCommand.cs" />
-    <Compile Include="Command\SmtpCommandResultCode.cs" />
+    <Compile Include="Command\SMTPCommandResultCode.cs" />
     <Compile Include="Core\SMTPClient.cs" />
+    <Compile Include="Core\SMTPConnectionStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

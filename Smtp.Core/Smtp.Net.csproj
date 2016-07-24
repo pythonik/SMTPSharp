@@ -44,6 +44,7 @@
     <Compile Include="Command\HELOCommand.cs" />
     <Compile Include="Command\SMTPCommandResultCode.cs" />
     <Compile Include="Core\SMTPClient.cs" />
+    <Compile Include="Command\SMTPCommandResult.cs" />
     <Compile Include="Core\SMTPConnectionStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

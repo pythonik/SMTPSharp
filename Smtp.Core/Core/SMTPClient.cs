@@ -11,6 +11,8 @@ namespace Smtp.Net.Core
 
         private TcpClient tcpClient;
 
+        private SMTPConnectionState state = SMTPConnectionState.NotInitialized;
+
         private string serverName;
 
         private int port;
@@ -39,14 +41,18 @@ namespace Smtp.Net.Core
             return pingResult;
         }
 
-        public bool ExecuteHelo()
+        public SMTPCommandResultCode ExecuteHelo()
         {
             return this.ExecuteCommand(new HELOCommand(this.Domain));
         }
 
-        private bool ExecuteCommand(SMTPCommand command)
+        private SMTPCommandResultCode ExecuteCommand(SMTPCommand command)
         {
-            return false;
+            if (this.state == SMTPConnectionState.NotInitialized)
+            {
+            }
+
+            return SMTPCommandResultCode.None;
         }
     }
 }

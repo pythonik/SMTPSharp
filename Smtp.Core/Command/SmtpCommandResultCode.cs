@@ -4,7 +4,7 @@
     {
         None = 0,
 
-        SystemStatus_OrSystemHelpReply = 211,
+        SystemStatusOrSystemHelpReply = 211,
         
         HelpMessage = 214,
        
@@ -18,23 +18,23 @@
 
         UserNotLocal_WillForwardTo = 251,
 
-        CannotVerifyUser_ButWillAcceptMessageAndAttemptDelivery = 252,
+        CannotVerifyUserButWillAcceptMessageAndAttemptDelivery = 252,
 
         WaitingForAuthentication = 334,
 
         StartMailInput = 354,
 
-        ServiceNotAvailable_ClosingTransmissionChannel = 421,
+        ServiceNotAvailableClosingTransmissionChannel = 421,
 
         APasswordTransitionIsNeeded = 432,
 
         RequestedMailActionNotTaken_MailboxUnavailable = 450,
 
-        RequestedActionAborted_ErrorInProcessing = 451,
+        RequestedActionAbortedErrorInProcessing = 451,
 
         TemporaryAuthenticationFailure = 454,
 
-        SyntaxError_CommandUnrecognized = 500,
+        SyntaxErrorCommandUnrecognized = 500,
 
         SyntaxErrorInParametersOrArguments = 501,
 
@@ -48,13 +48,13 @@
 
         EncryptionRequiredForRequestedAuthenticationMechanism = 538,
 
-        RequestedActionNotTaken_MailboxUnavailable = 550,
+        RequestedActionNotTakenMailboxUnavailable = 550,
 
-        UserNotLocal_PleaseTry = 551,
+        UserNotLocalPleaseTry = 551,
 
         RequestedMailActionAborted_ExceededStorageAllocation = 552,
 
-        RequestedActionNotTaken_MailboxNameNotAllowed = 553,
+        RequestedActionNotTakenMailboxNameNotAllowed = 553,
 
         TransactionFailed = 554
     }

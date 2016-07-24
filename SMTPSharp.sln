@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smtp.Main", "Smtp.Main\Smtp.Main.csproj", "{13CF07E3-E124-4097-9514-D5DEA5D612F8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47AEE139-3A19-4B98-8633-4EAB82CF0B6A} = {47AEE139-3A19-4B98-8633-4EAB82CF0B6A}
+		{AC867FB7-4CFD-4C60-8A02-C8E1ED479A4C} = {AC867FB7-4CFD-4C60-8A02-C8E1ED479A4C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smtp.Net", "Smtp.Core\Smtp.Net.csproj", "{AC867FB7-4CFD-4C60-8A02-C8E1ED479A4C}"
 EndProject

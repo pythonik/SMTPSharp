@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Smtp.Net.Core;
 
 namespace Smtp.Main
 {
@@ -10,6 +7,8 @@ namespace Smtp.Main
     {
         static void Main(string[] args)
         {
+            SMTPClient client = new SMTPClient("smtp.gmail.com");
+            Console.WriteLine(client.Ping());
         }
     }
 }

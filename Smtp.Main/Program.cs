@@ -8,7 +8,8 @@ namespace Smtp.Main
         static void Main(string[] args)
         {
             SMTPClient client = new SMTPClient("smtp.gmail.com");
-            Console.WriteLine(client.Ping());
+            client.Port = 587;
+            client.ExecuteHelo();
         }
     }
 }

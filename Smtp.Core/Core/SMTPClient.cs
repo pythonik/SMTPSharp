@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Net;
+using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using Smtp.Net.Command;
 using System.Text;
-using System.Collections.Generic;
 
 namespace Smtp.Net.Core
 {
@@ -79,30 +78,17 @@ namespace Smtp.Net.Core
             try
             {
                 this.tcpClient = new TcpClient(this.serverName, this.Port);
-                
-                byte[] bytes = new byte[1024];
+                byte[] buffer = new byte[1024];
                 var netStream = tcpClient.GetStream();
-                var count = 0;
-                do
-                {
-                    count = netStream.Read(bytes, 0, 1024);
-                    netStream.Position = netStream.Length - 2;
-                    byte[] lastTwoBytes = netStream.ToByteArray();
-
-
-
-                } while (count > 0);
-
-
-
-                if (tcpClient.Connected)
-                {
-                    this.state = SMTPConnectionState.Connected;
-                }
+                var readin = netStream.ReadAsync(buffer, 0, buffer.Length);
+                readin.Wait();
+                var serverResponse = Encoding.ASCII.GetString(buffer, 0, readin.Result);
+                Console.WriteLine(serverResponse);
+      
             }
-            catch
+            catch(Exception e)
             {
-
+                
             }
         }
 

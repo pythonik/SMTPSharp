@@ -4,12 +4,17 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using Smtp.Net.Command;
 using System.Text;
+using System.Diagnostics;
 
 namespace Smtp.Net.Core
 {
     public class SMTPClient
     {
         private string EOF = "\r\n";
+
+        private int CONNECT_TIMEOUT = 1000;
+
+        private int WAIT_TIMEOUT = 5000;
 
         private TcpClient tcpClient;
 
@@ -33,7 +38,7 @@ namespace Smtp.Net.Core
         public bool Ping()
         {
             bool pingResult = false;
-            
+
             Ping ping = new Ping();
             try
             {
@@ -42,6 +47,7 @@ namespace Smtp.Net.Core
             }
             catch
             {
+                Debug.WriteLine($"Failed to ping {this.serverName}");
             }
 
             return pingResult;
@@ -56,45 +62,46 @@ namespace Smtp.Net.Core
         {
             if (this.state == SMTPConnectionState.NotInitialized)
             {
-                initializeBuffer();
                 connectToRemote();
             }
 
             return SMTPCommandResultCode.None;
         }
 
-        private void initializeBuffer()
-        {
-            //bufferQueue = new Queue<byte[]>(128);
-            //for(int i =0;i<128;i++)
-            //{
-            //    bufferQueue.Enqueue(new byte[]())
-
-            //}
-        }
-
         private void connectToRemote()
         {
             try
             {
-                this.tcpClient = new TcpClient(this.serverName, this.Port);
-                byte[] buffer = new byte[1024];
-                var netStream = tcpClient.GetStream();
-                var readin = netStream.ReadAsync(buffer, 0, buffer.Length);
-                readin.Wait();
-                var serverResponse = Encoding.ASCII.GetString(buffer, 0, readin.Result);
-                Console.WriteLine(serverResponse);
-      
+                this.tcpClient = new TcpClient();
+                if (!this.tcpClient.ConnectAsync(this.serverName, this.Port).Wait(CONNECT_TIMEOUT))
+                {
+                    Debug.WriteLine($"Failed to connect {this.serverName}");
+                }
+                else
+                {
+                    readConnectRemoteResult();
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                
+                Debug.WriteLine(e.ToString());
             }
         }
 
-        private void extractLine()
+        private void readConnectRemoteResult()
         {
-            
+            var buffer = new byte[1024];
+            var netStream = tcpClient.GetStream();
+            var readin = netStream.ReadAsync(buffer, 0, buffer.Length);
+            if (readin.Wait(WAIT_TIMEOUT))
+            {
+                var serverResponse = Encoding.ASCII.GetString(buffer, 0, readin.Result);
+                Debug.WriteLine(serverResponse);
+            }
+            else
+            {
+                Debug.WriteLine("Failed to read connect Result");
+            }
         }
     }
 }

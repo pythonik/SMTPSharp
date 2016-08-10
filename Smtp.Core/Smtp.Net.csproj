@@ -47,6 +47,7 @@
     <Compile Include="Command\SMTPCommandResult.cs" />
     <Compile Include="Core\SMTPConnectionStatus.cs" />
     <Compile Include="Core\StreamExtension.cs" />
+    <Compile Include="Core\StringExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

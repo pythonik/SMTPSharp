@@ -65,6 +65,11 @@ namespace Smtp.Net.Core
                 connectToRemote();
             }
 
+            if(this.state == SMTPConnectionState.Connected)
+            {
+                //execute command
+            }
+
             return SMTPCommandResultCode.None;
         }
 
@@ -79,7 +84,10 @@ namespace Smtp.Net.Core
                 }
                 else
                 {
-                    readConnectRemoteResult();
+                    if (readConnectRemoteResult() == SMTPCommandResultCode.ServiceReady)
+                    {
+                        this.state = SMTPConnectionState.Connected;
+                    }
                 }
             }
             catch (Exception e)
@@ -88,7 +96,7 @@ namespace Smtp.Net.Core
             }
         }
 
-        private void readConnectRemoteResult()
+        private SMTPCommandResultCode readConnectRemoteResult()
         {
             var buffer = new byte[1024];
             var netStream = tcpClient.GetStream();
@@ -96,12 +104,14 @@ namespace Smtp.Net.Core
             if (readin.Wait(WAIT_TIMEOUT))
             {
                 var serverResponse = Encoding.ASCII.GetString(buffer, 0, readin.Result);
-                Debug.WriteLine(serverResponse);
+                Debug.Write(serverResponse);
+                return serverResponse.GetStatusCode();
             }
             else
             {
                 Debug.WriteLine("Failed to read connect Result");
             }
+            return SMTPCommandResultCode.None;
         }
     }
 }

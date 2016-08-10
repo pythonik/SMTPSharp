@@ -1,6 +1,6 @@
 ﻿namespace Smtp.Net.Command
 {
-    public enum SMTPCommandResultCode : int
+    public enum SMTPCommandResultCode
     {
         None = 0,
 

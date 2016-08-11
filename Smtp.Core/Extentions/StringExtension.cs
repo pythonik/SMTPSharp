@@ -9,10 +9,12 @@ namespace Smtp.Net.Core
 {
     static class StringExtension
     {
+        public const int RESULT_CODE_LEN = 3;
+        public const int MESSAGE_START_INDEX = 4;
         public static SMTPCommandResultCode GetStatusCode(this String responseString)
         {
             var statusCode = 0;
-            if(int.TryParse(responseString.Substring(0, 3), out statusCode))
+            if(int.TryParse(responseString.Substring(0, RESULT_CODE_LEN), out statusCode))
             {
                 return (SMTPCommandResultCode)statusCode;
             }
@@ -21,7 +23,8 @@ namespace Smtp.Net.Core
 
         public static string GetResponseMessage(this String responseString)
         {
-            return responseString.Substring(4, responseString.Length - 4);
+            int lengthOfMessage = responseString.Length - MESSAGE_START_INDEX;
+            return responseString.Substring(MESSAGE_START_INDEX, lengthOfMessage);
         }
     }
 }

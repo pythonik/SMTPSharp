@@ -12,7 +12,7 @@ namespace Smtp.Net.Core
         public static SMTPCommandResultCode GetStatusCode(this String responseString)
         {
             var statusCode = 0;
-            if(!int.TryParse(responseString.Substring(0, 3), out statusCode))
+            if(int.TryParse(responseString.Substring(0, 3), out statusCode))
             {
                 return (SMTPCommandResultCode)statusCode;
             }

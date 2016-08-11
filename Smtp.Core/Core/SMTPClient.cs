@@ -10,8 +10,6 @@ namespace Smtp.Net.Core
 {
     public class SMTPClient
     {
-        private string EOF = "\r\n";
-
         private int CONNECT_TIMEOUT = 1000;
 
         private int WAIT_TIMEOUT = 5000;
@@ -29,6 +27,7 @@ namespace Smtp.Net.Core
         public SMTPClient(string serverName)
         {
             this.serverName = serverName;
+            this.tcpClient = new TcpClient();
         }
 
         public string Domain { get; set; } = Environment.MachineName;
@@ -55,7 +54,8 @@ namespace Smtp.Net.Core
 
         public SMTPCommandResultCode ExecuteHelo()
         {
-            return this.ExecuteCommand(new HELOCommand(this.Domain));
+            var helo = new HELOCommand( this.Domain, this.tcpClient );
+            return this.ExecuteCommand(helo);
         }
 
         private SMTPCommandResultCode ExecuteCommand(SMTPCommand command)
@@ -67,7 +67,7 @@ namespace Smtp.Net.Core
 
             if(this.state == SMTPConnectionState.Connected)
             {
-                //execute command
+                command.Execute();
             }
 
             return SMTPCommandResultCode.None;
@@ -77,14 +77,13 @@ namespace Smtp.Net.Core
         {
             try
             {
-                this.tcpClient = new TcpClient();
                 if (!this.tcpClient.ConnectAsync(this.serverName, this.Port).Wait(CONNECT_TIMEOUT))
                 {
                     Debug.WriteLine($"Failed to connect {this.serverName}");
                 }
                 else
                 {
-                    if (readConnectRemoteResult() == SMTPCommandResultCode.ServiceReady)
+                    if ( readConnectRemoteResult() == SMTPCommandResultCode.ServiceReady)
                     {
                         this.state = SMTPConnectionState.Connected;
                     }

@@ -1,6 +1,6 @@
 ﻿namespace Smtp.Net.Command
 {
-    class SMTPCommandResult
+    public class SMTPCommandResult
     {
         public SMTPCommandResult(string message, SMTPCommandResultCode statusCode)
         {

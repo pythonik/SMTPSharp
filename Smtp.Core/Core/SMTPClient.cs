@@ -67,7 +67,7 @@ namespace Smtp.Net.Core
 
             if(this.state == SMTPConnectionState.Connected)
             {
-                command.Execute();
+                command.ExecuteCommand();
             }
 
             return SMTPCommandResultCode.None;

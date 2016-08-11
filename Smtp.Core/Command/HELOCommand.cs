@@ -9,8 +9,6 @@ namespace Smtp.Net.Command
     {
         private string domain;
 
-        private TcpClient tcpClient;
-
         public HELOCommand ( string domain )
         {
             this.domain = domain;
@@ -18,7 +16,10 @@ namespace Smtp.Net.Command
 
         public HELOCommand ( string domain, TcpClient tcpClient ) : this( domain )
         {
-            this.tcpClient = tcpClient;
+            if (SMTPCommand.Client == null)
+            {
+                SMTPCommand.Client = tcpClient;
+            }
         }
 
         public override string Name { get; } = "HELO";
@@ -28,31 +29,10 @@ namespace Smtp.Net.Command
             get { return string.Format( $"{this.Name} {this.domain}{LINE_FEED}" ); }
         }
 
-        public TcpClient Client { get { return tcpClient; } }
-
-        public override void Execute ()
+        public override void ExecuteCommand ()
         {
-            byte[] result = new byte[1024];
             var cmd = Encoding.ASCII.GetBytes( CommandString );
-            var writeTask = tcpClient.GetStream().WriteAsync(cmd, 0, cmd.Length);
-            if ( !writeTask.Wait( 5000 ) )
-            {
-                Debug.WriteLine( $"{cmd} failed to execute" );
-            }
-            else
-            {
-                var readTask = tcpClient.GetStream().ReadAsync( result, 0, 1024 );
-                if(!readTask.Wait(5000))
-                {
-                    
-                }
-                else
-                {
-                    var serverResponse = Encoding.ASCII.GetString(result, 0, readTask.Result);
-                    Debug.WriteLine( serverResponse );
-                }
-                
-            }
+            Execute(cmd);
 
         }
     }

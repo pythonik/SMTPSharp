@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using Smtp.Net.Command;
 using System.Text;
-using System.Diagnostics;
+using Smtp.Net.Command;
 
 namespace Smtp.Net.Core
 {
     public class SMTPClient
     {
-
         private TcpClient tcpClient;
 
         private SMTPConnectionState state = SMTPConnectionState.NotInitialized;
@@ -27,13 +26,13 @@ namespace Smtp.Net.Core
             this.tcpClient = new TcpClient();
         }
 
-        public string Domain { get; set; } = Environment.MachineName;
-
-        public int Port { get; set; } = 25;
-
         public static int WaitTimeOut { get; set; } = 5000;
 
         public static int ConnectTimeOut { get; set; } = 1000;
+
+        public string Domain { get; set; } = Environment.MachineName;
+
+        public int Port { get; set; } = 25;
 
         public bool Ping()
         {
@@ -63,10 +62,10 @@ namespace Smtp.Net.Core
         {
             if (this.state == SMTPConnectionState.NotInitialized)
             {
-                connectToRemote();
+                this.ConnectToRemote();
             }
 
-            if(this.state == SMTPConnectionState.Connected)
+            if (this.state == SMTPConnectionState.Connected)
             {
                 command.ExecuteCommand();
             }
@@ -74,7 +73,7 @@ namespace Smtp.Net.Core
             return SMTPCommandResultCode.None;
         }
 
-        private void connectToRemote()
+        private void ConnectToRemote()
         {
             try
             {
@@ -84,7 +83,7 @@ namespace Smtp.Net.Core
                 }
                 else
                 {
-                    if ( readConnectRemoteResult() == SMTPCommandResultCode.ServiceReady)
+                    if (this.ReadConnectRemoteResult() == SMTPCommandResultCode.ServiceReady)
                     {
                         this.state = SMTPConnectionState.Connected;
                     }
@@ -96,10 +95,10 @@ namespace Smtp.Net.Core
             }
         }
 
-        private SMTPCommandResultCode readConnectRemoteResult()
+        private SMTPCommandResultCode ReadConnectRemoteResult()
         {
             var buffer = new byte[1024];
-            var netStream = tcpClient.GetStream();
+            var netStream = this.tcpClient.GetStream();
             var readin = netStream.ReadAsync(buffer, 0, buffer.Length);
             if (readin.Wait(WaitTimeOut))
             {
@@ -109,8 +108,9 @@ namespace Smtp.Net.Core
             }
             else
             {
-                Debug.WriteLine("Failed to read connect Result");
+                Debug.WriteLine( "Failed to read connect Result" );
             }
+
             return SMTPCommandResultCode.None;
         }
     }

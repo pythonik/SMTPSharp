@@ -1,26 +1,24 @@
-﻿using Smtp.Net.Core;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
+using Smtp.Net.Core;
 
 namespace Smtp.Net.Command
 {
     public abstract class SMTPCommand
     {
-        public const string LINE_FEED = "\r\n";
+        public const string LINEFEED = "\r\n";
+
+        public static TcpClient Client { get; set; }
 
         public abstract string Name { get; }
 
         public abstract string CommandString { get; }
 
-        public abstract SMTPCommandResult ExecuteCommand();
-
-        public static TcpClient Client { get; set; }
-
         public static SMTPCommandResult Execute(byte[] command)
         {
-            var smtpResult = new SMTPCommandResult("", SMTPCommandResultCode.None);
+            var smtpResult = new SMTPCommandResult(string.Empty, SMTPCommandResultCode.None);
             try
             {
                 var writeTask = Client.GetStream().WriteAsync(command, 0, command.Length);
@@ -37,8 +35,8 @@ namespace Smtp.Net.Command
                             smtpResult.StatusCode = serverResponse.GetStatusCode();
                             smtpResult.Message = serverResponse.GetResponseMessage();
                             Debug.WriteLine(serverResponse);
-                            Array.Clear(result, 0 , 1024);
-                            if(readTask.Result<1024)
+                            Array.Clear(result, 0, 1024);
+                            if (readTask.Result < 1024)
                             {
                                 break;
                             }
@@ -50,11 +48,14 @@ namespace Smtp.Net.Command
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
             }
+
             return smtpResult;
         }
+
+        public abstract SMTPCommandResult ExecuteCommand();
     }
 }

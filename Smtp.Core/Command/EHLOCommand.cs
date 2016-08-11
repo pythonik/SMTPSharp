@@ -16,18 +16,19 @@ namespace Smtp.Net.Command
             this.domain = domain;
         }
 
-        public EHLOCommand(string domain, TcpClient tcpClient) : this( domain )
+        public EHLOCommand(string domain, TcpClient tcpClient) : this(domain)
         {
             if (SMTPCommand.Client == null)
             {
                 SMTPCommand.Client = tcpClient;
             }
         }
+
         public override string CommandString
         {
             get
             {
-                return $"{this.Name} {this.domain}{LINE_FEED}";
+                return $"{this.Name} {this.domain}{LINEFEED}";
             }
         }
 
@@ -35,8 +36,8 @@ namespace Smtp.Net.Command
 
         public override SMTPCommandResult ExecuteCommand()
         {
-            var cmd = Encoding.ASCII.GetBytes(CommandString);
-            return Execute(cmd);
+            var cmd = Encoding.ASCII.GetBytes(this.CommandString);
+            return SMTPCommand.Execute(cmd);
         }
     }
 }

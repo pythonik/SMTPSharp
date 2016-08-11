@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Smtp.Net.Core;
+using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Smtp.Net.Command
 
         public abstract string CommandString { get; }
 
-        public abstract void ExecuteCommand ();
+        public abstract SMTPCommandResult ExecuteCommand ();
 
         public static TcpClient Client { get; set; }
 
@@ -33,6 +34,7 @@ namespace Smtp.Net.Command
 
                         Debug.WriteLine(serverResponse);
                         smtpResult.StatusCode = serverResponse.GetStatusCode();
+                        smtpResult.Message = serverResponse.GetResponseMessage();
                     }
 
                 }

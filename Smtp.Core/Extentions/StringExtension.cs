@@ -18,6 +18,11 @@ namespace Smtp.Net.Core
             }
             return SMTPCommandResultCode.None;
         }
+
+        public static string GetResponseMessage(this String responseString)
+        {
+            return responseString.Substring(4, responseString.Length - 4);
+        }
     }
 }
 

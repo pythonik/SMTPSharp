@@ -29,10 +29,10 @@ namespace Smtp.Net.Command
             get { return string.Format( $"{this.Name} {this.domain}{LINE_FEED}" ); }
         }
 
-        public override void ExecuteCommand ()
+        public override SMTPCommandResult ExecuteCommand ()
         {
             var cmd = Encoding.ASCII.GetBytes( CommandString );
-            Execute(cmd);
+            return Execute(cmd);
 
         }
     }

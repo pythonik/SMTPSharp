@@ -53,9 +53,9 @@ namespace Smtp.Net.Core
             return pingResult;
         }
 
-        public SMTPCommandResultCode ExecuteHelo()
+        public SMTPCommandResultCode ExecuteEhloHelo()
         {
-            var helo = new HELOCommand( this.Domain, this.tcpClient );
+            var helo = new EHLOCommand( this.Domain, this.tcpClient );
             return this.ExecuteCommand(helo);
         }
 

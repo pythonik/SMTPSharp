@@ -9,7 +9,7 @@ namespace Smtp.Main
         {
             SMTPClient client = new SMTPClient("smtp.gmail.com");
             client.Port = 587;
-            client.ExecuteHelo();
+            client.ExecuteEhloHelo();
         }
     }
 }

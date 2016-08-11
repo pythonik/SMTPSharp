@@ -8,13 +8,13 @@ namespace Smtp.Net.Command
 {
     public abstract class SMTPCommand
     {
-        public const string LINE_FEED = "\r\n"; 
+        public const string LINE_FEED = "\r\n";
 
         public abstract string Name { get; }
 
         public abstract string CommandString { get; }
 
-        public abstract SMTPCommandResult ExecuteCommand ();
+        public abstract SMTPCommandResult ExecuteCommand();
 
         public static TcpClient Client { get; set; }
 
@@ -27,15 +27,27 @@ namespace Smtp.Net.Command
                 byte[] result = new byte[1024];
                 if (writeTask.Wait(SMTPClient.WaitTimeOut))
                 {
-                    var readTask = Client.GetStream().ReadAsync(result, 0, 1024);
-                    if (readTask.Wait(SMTPClient.WaitTimeOut))
+                    bool read = true;
+                    while (read)
                     {
-                        var serverResponse = Encoding.ASCII.GetString(result, 0, readTask.Result);
-                        smtpResult.StatusCode = serverResponse.GetStatusCode();
-                        smtpResult.Message = serverResponse.GetResponseMessage();
-                        Debug.WriteLine(serverResponse);
+                        var readTask = Client.GetStream().ReadAsync(result, 0, 1024);
+                        if (readTask.Wait(SMTPClient.WaitTimeOut))
+                        {
+                            var serverResponse = Encoding.ASCII.GetString(result, 0, readTask.Result);
+                            smtpResult.StatusCode = serverResponse.GetStatusCode();
+                            smtpResult.Message = serverResponse.GetResponseMessage();
+                            Debug.WriteLine(serverResponse);
+                            Array.Clear(result, 0 , 1024);
+                            if(readTask.Result<1024)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-
                 }
             }
             catch(Exception ex)

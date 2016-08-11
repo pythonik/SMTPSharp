@@ -35,7 +35,8 @@ namespace Smtp.Net.Command
 
         public override SMTPCommandResult ExecuteCommand()
         {
-            throw new NotImplementedException();
+            var cmd = Encoding.ASCII.GetBytes(CommandString);
+            return Execute(cmd);
         }
     }
 }

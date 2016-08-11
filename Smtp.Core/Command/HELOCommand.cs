@@ -26,14 +26,13 @@ namespace Smtp.Net.Command
 
         public override string CommandString
         {
-            get { return string.Format( $"{this.Name} {this.domain}{LINE_FEED}" ); }
+            get { return $"{this.Name} {this.domain}{LINE_FEED}"; }
         }
 
         public override SMTPCommandResult ExecuteCommand ()
         {
             var cmd = Encoding.ASCII.GetBytes( CommandString );
             return Execute(cmd);
-
         }
     }
 }

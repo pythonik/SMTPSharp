@@ -25,16 +25,15 @@ namespace Smtp.Net.Command
             {
                 var writeTask = Client.GetStream().WriteAsync(command, 0, command.Length);
                 byte[] result = new byte[1024];
-                if (writeTask.Wait(5000))
+                if (writeTask.Wait(SMTPClient.WaitTimeOut))
                 {
                     var readTask = Client.GetStream().ReadAsync(result, 0, 1024);
-                    if (readTask.Wait(5000))
+                    if (readTask.Wait(SMTPClient.WaitTimeOut))
                     {
                         var serverResponse = Encoding.ASCII.GetString(result, 0, readTask.Result);
-
-                        Debug.WriteLine(serverResponse);
                         smtpResult.StatusCode = serverResponse.GetStatusCode();
                         smtpResult.Message = serverResponse.GetResponseMessage();
+                        Debug.WriteLine(serverResponse);
                     }
 
                 }

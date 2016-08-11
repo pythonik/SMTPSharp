@@ -10,9 +10,6 @@ namespace Smtp.Net.Core
 {
     public class SMTPClient
     {
-        private int CONNECT_TIMEOUT = 1000;
-
-        private int WAIT_TIMEOUT = 5000;
 
         private TcpClient tcpClient;
 
@@ -33,6 +30,10 @@ namespace Smtp.Net.Core
         public string Domain { get; set; } = Environment.MachineName;
 
         public int Port { get; set; } = 25;
+
+        public static int WaitTimeOut { get; set; } = 5000;
+
+        public static int ConnectTimeOut { get; set; } = 1000;
 
         public bool Ping()
         {
@@ -77,7 +78,7 @@ namespace Smtp.Net.Core
         {
             try
             {
-                if (!this.tcpClient.ConnectAsync(this.serverName, this.Port).Wait(CONNECT_TIMEOUT))
+                if (!this.tcpClient.ConnectAsync(this.serverName, this.Port).Wait(ConnectTimeOut))
                 {
                     Debug.WriteLine($"Failed to connect {this.serverName}");
                 }
@@ -100,7 +101,7 @@ namespace Smtp.Net.Core
             var buffer = new byte[1024];
             var netStream = tcpClient.GetStream();
             var readin = netStream.ReadAsync(buffer, 0, buffer.Length);
-            if (readin.Wait(WAIT_TIMEOUT))
+            if (readin.Wait(WaitTimeOut))
             {
                 var serverResponse = Encoding.ASCII.GetString(buffer, 0, readin.Result);
                 Debug.Write(serverResponse);

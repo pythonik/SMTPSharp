@@ -21,8 +21,13 @@ namespace Smtp.Net.Core
 
         public static string GetResponseMessage(this string responseString)
         {
-            int lengthOfMessage = responseString.Length - MESSAGESTARTINDEX;
-            return responseString.Substring(MESSAGESTARTINDEX, lengthOfMessage);
+            var responseMessage = string.Empty;
+            if(responseString.Length > MESSAGESTARTINDEX)
+            {
+                int lengthOfMessage = responseString.Length - MESSAGESTARTINDEX;
+                responseMessage = responseString.Substring(MESSAGESTARTINDEX, lengthOfMessage);
+            }
+            return responseMessage;
         }
     }
 }

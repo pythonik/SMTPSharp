@@ -13,11 +13,27 @@ namespace UnitTestProject
         }
 
         [Fact]
+        public void TestGetStatusCodeWithErroneousInput()
+        {
+            var testResponse = "SomethingWrongNoStatusCode";
+            var statusCode = (int)testResponse.GetStatusCode();
+            Assert.True(statusCode == 0);
+        }
+
+        [Fact]
         public void TestGetResponseMessage()
         {
             var testResponse = "220 someserverisready";
             var message = testResponse.GetResponseMessage();
             Assert.True(message == "someserverisready");
+        }
+
+        [Fact]
+        public void TestGetResponseWithErroneousInput()
+        {
+            var invalidShortMessage = "No";
+            var message = invalidShortMessage.GetResponseMessage();
+            Assert.True(message == string.Empty);
         }
     }
 }

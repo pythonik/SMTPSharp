@@ -54,7 +54,7 @@ namespace Smtp.Net.Core
 
         public SMTPCommandResultCode ExecuteEhloHelo()
         {
-            var helo = new EHLOCommand( this.Domain, this.tcpClient );
+            var helo = new EHLOCommand(this.Domain, this.tcpClient);
             return this.ExecuteCommand(helo);
         }
 
@@ -108,7 +108,7 @@ namespace Smtp.Net.Core
             }
             else
             {
-                Debug.WriteLine( "Failed to read connect Result" );
+                Debug.WriteLine("Failed to read connect Result");
             }
 
             return SMTPCommandResultCode.None;

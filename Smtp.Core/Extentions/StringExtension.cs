@@ -2,7 +2,7 @@
 
 namespace Smtp.Net.Core
 {
-    static class StringExtension
+    public static class StringExtension
     {
         public const int RESULTCODELEN = 3;
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smtp.Main", "Smtp.Main\Smtp.Main.csproj", "{13CF07E3-E124-4097-9514-D5DEA5D612F8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -12,6 +12,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smtp.Net", "Smtp.Core\Smtp.Net.csproj", "{AC867FB7-4CFD-4C60-8A02-C8E1ED479A4C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smtp.Mail", "Smtp.Mail\Smtp.Mail.csproj", "{47AEE139-3A19-4B98-8633-4EAB82CF0B6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{8C177FBA-C385-4F1C-B2C4-53469FFCD9B8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47AEE139-3A19-4B98-8633-4EAB82CF0B6A} = {47AEE139-3A19-4B98-8633-4EAB82CF0B6A}
+		{AC867FB7-4CFD-4C60-8A02-C8E1ED479A4C} = {AC867FB7-4CFD-4C60-8A02-C8E1ED479A4C}
+		{13CF07E3-E124-4097-9514-D5DEA5D612F8} = {13CF07E3-E124-4097-9514-D5DEA5D612F8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +38,10 @@ Global
 		{47AEE139-3A19-4B98-8633-4EAB82CF0B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47AEE139-3A19-4B98-8633-4EAB82CF0B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47AEE139-3A19-4B98-8633-4EAB82CF0B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C177FBA-C385-4F1C-B2C4-53469FFCD9B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C177FBA-C385-4F1C-B2C4-53469FFCD9B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C177FBA-C385-4F1C-B2C4-53469FFCD9B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C177FBA-C385-4F1C-B2C4-53469FFCD9B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

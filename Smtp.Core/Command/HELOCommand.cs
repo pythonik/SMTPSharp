@@ -9,14 +9,14 @@ namespace Smtp.Net.Command
     {
         private string domain;
 
-        public HELOCommand(string domain)
+        public HELOCommand ( string domain )
         {
             this.domain = domain;
         }
 
-        public HELOCommand(string domain, TcpClient tcpClient) : this(domain)
+        public HELOCommand ( string domain, TcpClient tcpClient ) : this( domain )
         {
-            if (SMTPCommand.Client == null)
+            if ( SMTPCommand.Client == null )
             {
                 SMTPCommand.Client = tcpClient;
             }
@@ -29,10 +29,10 @@ namespace Smtp.Net.Command
             get { return $"{this.Name} {this.domain}{LINEFEED}"; }
         }
 
-        public override SMTPCommandResult ExecuteCommand()
+        public override SMTPCommandResult ExecuteCommand ()
         {
             var cmd = Encoding.ASCII.GetBytes(this.CommandString);
-            return SMTPCommand.Execute(cmd);
+            return SMTPCommand.Execute( cmd );
         }
     }
 }

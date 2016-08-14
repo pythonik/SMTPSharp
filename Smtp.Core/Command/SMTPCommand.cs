@@ -16,27 +16,27 @@ namespace Smtp.Net.Command
 
         public abstract string CommandString { get; }
 
-        public static SMTPCommandResult Execute(byte[] command)
+        public static SMTPCommandResult Execute ( byte[] command )
         {
             var smtpResult = new SMTPCommandResult(string.Empty, SMTPCommandResultCode.None);
             try
             {
                 var writeTask = Client.GetStream().WriteAsync(command, 0, command.Length);
                 byte[] result = new byte[1024];
-                if (writeTask.Wait(SMTPClient.WaitTimeOut))
+                if ( writeTask.Wait( SMTPClient.WaitTimeOut ) )
                 {
                     bool read = true;
-                    while (read)
+                    while ( read )
                     {
                         var readTask = Client.GetStream().ReadAsync(result, 0, 1024);
-                        if (readTask.Wait(SMTPClient.WaitTimeOut))
+                        if ( readTask.Wait( SMTPClient.WaitTimeOut ) )
                         {
                             var serverResponse = Encoding.ASCII.GetString(result, 0, readTask.Result);
                             smtpResult.StatusCode = serverResponse.GetStatusCode();
                             smtpResult.Message = serverResponse.GetResponseMessage();
-                            Debug.WriteLine(serverResponse);
-                            Array.Clear(result, 0, 1024);
-                            if (readTask.Result < 1024)
+                            Debug.WriteLine( serverResponse );
+                            Array.Clear( result, 0, 1024 );
+                            if ( readTask.Result < 1024 )
                             {
                                 break;
                             }
@@ -48,14 +48,14 @@ namespace Smtp.Net.Command
                     }
                 }
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
-                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine( ex.ToString() );
             }
 
             return smtpResult;
         }
 
-        public abstract SMTPCommandResult ExecuteCommand();
+        public abstract SMTPCommandResult ExecuteCommand ();
     }
 }

@@ -9,15 +9,15 @@
         Connected,
 
         Authenticated,
-      
+
         MailFromCommandExecuting,
-       
+
         MailFromCommandExecuted,
-       
+
         RcptToCommandExecuting,
-       
+
         RcptToCommandExecuted,
-      
+
         DataCommandExecuting,
 
         DataCommandExecuted

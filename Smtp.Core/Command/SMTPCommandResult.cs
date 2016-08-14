@@ -2,7 +2,7 @@
 {
     public class SMTPCommandResult
     {
-        public SMTPCommandResult(string message, SMTPCommandResultCode statusCode)
+        public SMTPCommandResult ( string message, SMTPCommandResultCode statusCode )
         {
             this.Message = message;
             this.StatusCode = statusCode;

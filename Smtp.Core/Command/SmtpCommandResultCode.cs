@@ -5,11 +5,11 @@
         None = 0,
 
         SystemStatusOrSystemHelpReply = 211,
-        
+
         HelpMessage = 214,
-       
+
         ServiceReady = 220,
-       
+
         ServiceClosingTransmissionChannel = 221,
 
         AuthenticationSuccessful = 235,

@@ -20,7 +20,7 @@ namespace Smtp.Net.Core
 
         private Queue<byte[]> bufferQueue;
 
-        public SMTPClient(string serverName)
+        public SMTPClient ( string serverName )
         {
             this.serverName = serverName;
             this.tcpClient = new TcpClient();
@@ -34,7 +34,7 @@ namespace Smtp.Net.Core
 
         public int Port { get; set; } = 25;
 
-        public bool Ping()
+        public bool Ping ()
         {
             bool pingResult = false;
 
@@ -46,32 +46,32 @@ namespace Smtp.Net.Core
             }
             catch
             {
-                Debug.WriteLine($"Failed to ping {this.serverName}");
+                Debug.WriteLine( $"Failed to ping {this.serverName}" );
             }
 
             return pingResult;
         }
 
-        public SMTPCommandResultCode ExecuteEhloHelo()
+        public SMTPCommandResultCode ExecuteEhloHelo ()
         {
             var helo = new EHLOCommand(this.Domain, this.tcpClient);
-            return this.ExecuteCommand(helo);
+            return this.ExecuteCommand( helo );
         }
 
-        public SMTPCommandResultCode ExecuteQuit()
+        public SMTPCommandResultCode ExecuteQuit ()
         {
             var quit = new QUITCommand();
-            return this.ExecuteCommand(quit);
+            return this.ExecuteCommand( quit );
         }
 
-        private SMTPCommandResultCode ExecuteCommand(SMTPCommand command)
+        private SMTPCommandResultCode ExecuteCommand ( SMTPCommand command )
         {
-            if (this.state == SMTPConnectionState.NotInitialized)
+            if ( this.state == SMTPConnectionState.NotInitialized )
             {
                 this.ConnectToRemote();
             }
 
-            if (this.state == SMTPConnectionState.Connected)
+            if ( this.state == SMTPConnectionState.Connected )
             {
                 command.ExecuteCommand();
             }
@@ -79,42 +79,42 @@ namespace Smtp.Net.Core
             return SMTPCommandResultCode.None;
         }
 
-        private void ConnectToRemote()
+        private void ConnectToRemote ()
         {
             try
             {
-                if (!this.tcpClient.ConnectAsync(this.serverName, this.Port).Wait(ConnectTimeOut))
+                if ( !this.tcpClient.ConnectAsync( this.serverName, this.Port ).Wait( ConnectTimeOut ) )
                 {
-                    Debug.WriteLine($"Failed to connect {this.serverName}");
+                    Debug.WriteLine( $"Failed to connect {this.serverName}" );
                 }
                 else
                 {
-                    if (this.ReadConnectRemoteResult() == SMTPCommandResultCode.ServiceReady)
+                    if ( this.ReadConnectRemoteResult() == SMTPCommandResultCode.ServiceReady )
                     {
                         this.state = SMTPConnectionState.Connected;
                     }
                 }
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
-                Debug.WriteLine(e.ToString());
+                Debug.WriteLine( e.ToString() );
             }
         }
 
-        private SMTPCommandResultCode ReadConnectRemoteResult()
+        private SMTPCommandResultCode ReadConnectRemoteResult ()
         {
             var buffer = new byte[1024];
             var netStream = this.tcpClient.GetStream();
             var readin = netStream.ReadAsync(buffer, 0, buffer.Length);
-            if (readin.Wait(WaitTimeOut))
+            if ( readin.Wait( WaitTimeOut ) )
             {
                 var serverResponse = Encoding.ASCII.GetString(buffer, 0, readin.Result);
-                Debug.Write(serverResponse);
+                Debug.Write( serverResponse );
                 return serverResponse.GetStatusCode();
             }
             else
             {
-                Debug.WriteLine("Failed to read connect Result");
+                Debug.WriteLine( "Failed to read connect Result" );
             }
 
             return SMTPCommandResultCode.None;

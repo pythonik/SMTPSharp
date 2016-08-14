@@ -1,15 +1,16 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.Net.Sockets;
 using System.Text;
 
 namespace Smtp.Net.Command
 {
     class QUITCommand : SMTPCommand
     {
-        public QUITCommand(TcpClient tcpClient) 
+        public QUITCommand() 
         {
-            if (SMTPCommand.Client == null)
+            if ( SMTPCommand.Client == null )
             {
-                SMTPCommand.Client = tcpClient;
+                throw new Exception( "Internal Tcp client is null" );
             }
         }
 
@@ -22,8 +23,8 @@ namespace Smtp.Net.Command
 
         public override SMTPCommandResult ExecuteCommand()
         {
-            var cmd = Encoding.ASCII.GetBytes(this.CommandString);
-            return SMTPCommand.Execute(cmd);
+            var cmd = Encoding.ASCII.GetBytes( this.CommandString );
+            return SMTPCommand.Execute( cmd );
         }
     }
 }

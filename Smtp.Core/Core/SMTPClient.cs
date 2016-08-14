@@ -60,7 +60,7 @@ namespace Smtp.Net.Core
 
         public SMTPCommandResultCode ExecuteQuit()
         {
-            var quit = new QUITCommand(null);
+            var quit = new QUITCommand();
             return this.ExecuteCommand(quit);
         }
 

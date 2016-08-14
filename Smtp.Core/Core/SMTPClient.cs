@@ -58,6 +58,12 @@ namespace Smtp.Net.Core
             return this.ExecuteCommand(helo);
         }
 
+        public SMTPCommandResultCode ExecuteQuit()
+        {
+            var quit = new QUITCommand(null);
+            return this.ExecuteCommand(quit);
+        }
+
         private SMTPCommandResultCode ExecuteCommand(SMTPCommand command)
         {
             if (this.state == SMTPConnectionState.NotInitialized)

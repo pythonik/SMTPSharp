@@ -1,5 +1,6 @@
-﻿using Xunit;
-using Smtp.Net.Core;
+﻿using Smtp.Net.Core;
+using Xunit;
+
 namespace UnitTestProject
 {
     public class ExtentionTests
